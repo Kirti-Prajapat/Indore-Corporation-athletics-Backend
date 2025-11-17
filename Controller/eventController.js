@@ -1,4 +1,4 @@
-const Event = require("../models/Event");
+const { Event } = require("../Model/event");
 
 // Add new event
 const addEvent = async (req, res) => {
@@ -44,4 +44,4 @@ const updateEvent = async (req, res) => {
   }
 };
 
-module.exports = {}
+module.exports = {addEvent, updateEvent, deleteEvent, getAllEvents}

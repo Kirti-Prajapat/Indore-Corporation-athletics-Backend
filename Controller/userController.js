@@ -54,4 +54,5 @@ const SigninUser = async (req, res) => {
 }
 
 
-module.exports = { SignupUser, SigninUser }
+
+module.exports = { SignupUser, SigninUser}

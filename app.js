@@ -7,6 +7,9 @@ server.use(cors())
 
 server.use(express.json());
 server.use("/athletics", require("./Routes/userRoute.js"));
+server.use("/eventdata", require("./Routes/eventRouts.js"));
+server.use("/adminverify", require("./Routes/adminRoute.js"));
+
 
 server.listen(9900,()=>{
     console.log("server run at:http://localhost:9900")
