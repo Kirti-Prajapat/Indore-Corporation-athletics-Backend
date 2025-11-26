@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const {Admin} = require("../Model/Admin")
+const {Admin} = require("../Model/AdminModel")
 
 // Signup controller
 

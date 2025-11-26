@@ -1,5 +1,6 @@
 const { User } = require("../Model/userModel");
-const { Event }  = require("../Model/event");
+// const { Registr }  = require("../Model/event");
+const Registration = require("../Model/registrationModel")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -54,5 +55,39 @@ const SigninUser = async (req, res) => {
 }
 
 
+//  for registration
 
-module.exports = { SignupUser, SigninUser}
+const registerAthlete = async (req, res) => {
+  try {
+    const data = req.body;
+
+    await Registration.create(data);
+
+    res.status(201).json({
+      message: "Registration Successful!",
+      success: true
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server Error",
+      success: false
+    });
+  }
+};
+
+
+// Get All Registered Users
+const getAllRegistrations = async (req, res) => {
+  try {
+    const registrations = await Registration.find().sort({ createdAt: -1 });
+    res.json(registrations);
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
+
+
+module.exports = { SignupUser, SigninUser,registerAthlete, getAllRegistrations}
