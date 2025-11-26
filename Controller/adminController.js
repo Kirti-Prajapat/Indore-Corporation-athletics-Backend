@@ -56,7 +56,7 @@ const signinAdmin = async (req, res) => {
     const match = await bcrypt.compare(password, admin.password);
     if (!match) return res.status(400).json({ message: "Wrong Password" });
 
-    const token = jwt.sign({ id: admin._id }, "ADMIN_TOKEN_SECRET");
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET);
 
     res.json({
       message: "Login Success",
@@ -80,7 +80,7 @@ const verifyAdmin = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    jwt.verify(token, "ADMIN_TOKEN_SECRET", (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET , (err, decoded) => {
       if (err) return res.status(401).json({ message: "Invalid token" });
 
       req.user = decoded;

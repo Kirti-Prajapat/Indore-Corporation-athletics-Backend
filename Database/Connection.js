@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const db = "mongodb+srv://CorporationAthletics:123@cluster0.ogjgc53.mongodb.net/CorporationAthletics?appName=Cluster0"
+const db = process.env.MONGO_URL
 
 mongoose.connect(db, {
 })
