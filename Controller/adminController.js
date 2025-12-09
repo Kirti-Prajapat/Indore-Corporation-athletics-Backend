@@ -73,41 +73,27 @@ const signinAdmin = async (req, res) => {
 // Middleware: Verify admin
 
 
-const verifyAdmin = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) return res.status(401).json({ message: "No token" });
-
-    const token = authHeader.split(" ")[1];
-
-    jwt.verify(token, process.env.JWT_SECRET , (err, decoded) => {
-      if (err) return res.status(401).json({ message: "Invalid token" });
-
-      req.user = decoded;
-      next();
-    });
-
-  } catch (err) {
-    res.status(500).json({ message: "Error verifying token" });
-  }
-};
-
 // const verifyAdmin = (req, res, next) => {
 //   try {
-//     const token = req.headers.authorization?.split(" ")[1];
-//     if (!token) return res.status(401).json({ message: "No token provided" });
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader) return res.status(401).json({ message: "No token" });
 
-//     const decoded = jwt.verify(token, "our Secret key");
-//     if (decoded.role !== "admin") {
-//       return res.status(403).json({ message: "Access denied. Admin only." });
-//     }
+//     const token = authHeader.split(" ")[1];
 
-//     next();
-//   } catch (error) {
-//     res.status(401).json({ message: "Invalid token" });
+//     jwt.verify(token, process.env.JWT_SECRET , (err, decoded) => {
+//       if (err) return res.status(401).json({ message: "Invalid token" });
+
+//       req.user = decoded;
+//       next();
+//     });
+
+//   } catch (err) {
+//     res.status(500).json({ message: "Error verifying token" });
 //   }
 // };
 
 
 
-module.exports = {signupAdmin,signinAdmin, verifyAdmin};
+
+
+module.exports = {signupAdmin,signinAdmin};

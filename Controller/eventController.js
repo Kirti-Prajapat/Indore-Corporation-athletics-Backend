@@ -44,4 +44,51 @@ const updateEvent = async (req, res) => {
   }
 };
 
-module.exports = {addEvent, updateEvent, deleteEvent, getAllEvents}
+
+// Get live video for a specific event (only for logged-in users)
+const getLiveEvent = async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    const event = await Event.findById(eventId);
+
+    if (!event) return res.status(404).json({ message: "Event Not Found" });
+
+
+    // Check if event is live
+    if (!event.isLive) {
+      return res.status(403).json({ message: "Event is not live currently!" });
+    }
+
+    //  Only logged-in users can access videoUrl
+    res.json({
+      title: event.title,
+      videoUrl: event.videoUrl,
+      liveURL: event.liveURL
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// 
+
+const toggleLiveEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { liveURL } = req.body;
+
+    const updated = await Event.findByIdAndUpdate(
+      id,
+      { liveURL:`https://www.youtube.com/embed/UCJKNaCURBPOp8jm?autoplay=1`, isLive: true },
+      { new: true }
+    );
+
+    res.json({ message: "Live URL Saved", data: updated });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to save live URL" });
+  }
+};
+
+
+module.exports = {addEvent, updateEvent, deleteEvent, getAllEvents,  getLiveEvent, toggleLiveEvent}

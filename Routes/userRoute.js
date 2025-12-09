@@ -1,21 +1,16 @@
 const express = require("express");
-
-const { SignupUser, SigninUser, registerAthlete,
-  getAllRegistrations} = require("../Controller/userController");
-
-
-// const verifyAdmin =require("../Middleware/verifyAdmin")
+const { SignupUser, SigninUser, registerAthlete, getAllRegistrations } = require("../Controller/userController");
+const { protect, checkRole } = require("../Middleware/auth");
 
 const router = express.Router();
 
-//  for user
+// Public routes
 router.post("/signup", SignupUser);
 router.post("/signin", SigninUser);
 
-router.post("/register", registerAthlete);
-
+// Protected routes
+router.post("/register", protect, checkRole("user"), registerAthlete); // Normal user
 // GET - Fetch all registrations
-router.get("/all", getAllRegistrations);
-
+router.get("/all", protect, checkRole("admin"), getAllRegistrations);   // Admin-only
 
 module.exports = router;

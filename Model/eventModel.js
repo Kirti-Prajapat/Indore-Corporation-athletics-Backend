@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema({
   imageUrl: { type: String },
   videoUrl: { type: String },
   liveURL: String, 
+  isLive: { type: Boolean, default: false }, 
   registeredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 }, { timestamps: true });
 

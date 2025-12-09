@@ -1,5 +1,4 @@
 const { User } = require("../Model/userModel");
-// const { Registr }  = require("../Model/event");
 const Registration = require("../Model/registrationModel")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -86,6 +85,9 @@ const getAllRegistrations = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+
+
 
 
 
