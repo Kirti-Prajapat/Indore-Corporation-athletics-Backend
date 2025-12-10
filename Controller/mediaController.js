@@ -22,7 +22,7 @@ const uploadFile = (req, res) => {
   if (!req.file) return res.status(400).json({ message: "Choose the file!" });
 
   res.json({
-    message: "File uploaded ho gaya!",
+    message: "File uploaded!",
     fileUrl: "/uploads/" + req.file.filename,
   });
 };

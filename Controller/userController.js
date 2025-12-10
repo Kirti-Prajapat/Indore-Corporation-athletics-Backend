@@ -43,6 +43,8 @@ const SigninUser = async (req, res) => {
 
         const token = jwt.sign({ id: existingUser._id, email: existingUser.email, role: existingUser.role }, process.env.JWT_SECRET, { expiresIn: "30d" });
 
+
+
         res.status(200).json({
             message: "Signin Successful",
             token,

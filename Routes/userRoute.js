@@ -9,8 +9,8 @@ router.post("/signup", SignupUser);
 router.post("/signin", SigninUser);
 
 // Protected routes
-router.post("/register", protect, checkRole("user"), registerAthlete); // Normal user
+router.post("/register", registerAthlete); // Normal user
 // GET - Fetch all registrations
-router.get("/all", protect, checkRole("admin"), getAllRegistrations);   // Admin-only
+router.get("/all", getAllRegistrations);   // Admin-only
 
 module.exports = router;
