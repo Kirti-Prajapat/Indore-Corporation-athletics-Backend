@@ -1,6 +1,6 @@
 require("dotenv").config()
-require("./Database/Connection")
 const express = require("express")
+require("./Database/Connection")
 const server = express()
 
 

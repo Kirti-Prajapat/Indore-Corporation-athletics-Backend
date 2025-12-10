@@ -71,24 +71,31 @@ const getLiveEvent = async (req, res) => {
 };
 
 
-// 
-
+// Toggle live URL (Admin only)
 const toggleLiveEvent = async (req, res) => {
   try {
     const { id } = req.params;
     const { liveURL } = req.body;
 
-    const updated = await Event.findByIdAndUpdate(
+    if (!liveURL) {
+      return res.status(400).json({ message: "liveURL is required" });
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
       id,
       { liveURL, isLive: true },
       { new: true }
     );
 
-    res.json({ message: "Live URL Saved", data: updated });
+    if (!updatedEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({ message: "Live URL saved successfully", updatedEvent });
   } catch (error) {
-    res.status(500).json({ message: "Failed to save live URL" });
+    console.error("Toggle Live Event Error:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 module.exports = {addEvent, updateEvent, deleteEvent, getAllEvents,  getLiveEvent, toggleLiveEvent}
