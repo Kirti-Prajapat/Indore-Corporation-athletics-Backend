@@ -12,6 +12,9 @@ const protect = async (req, res, next) => {
 
   
     const token = authHeader.split(" ")[1];
+    console.log("TOKEN RECEIVED:", token);
+    console.log("SECRET USED:", process.env.JWT_SECRET);
+
       // JWT verify karo
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

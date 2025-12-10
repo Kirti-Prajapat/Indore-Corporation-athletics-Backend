@@ -80,7 +80,7 @@ const toggleLiveEvent = async (req, res) => {
 
     const updated = await Event.findByIdAndUpdate(
       id,
-      { liveURL:`https://www.youtube.com/embed/UCJKNaCURBPOp8jm?autoplay=1`, isLive: true },
+      { liveURL, isLive: true },
       { new: true }
     );
 
