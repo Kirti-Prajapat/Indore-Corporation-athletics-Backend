@@ -12,7 +12,7 @@ router.put("/update/:id", protect, checkRole("admin"), updateEvent);
 router.delete("/delete/:id", protect, checkRole("admin"), deleteEvent);
 
 // Admin toggles live
-router.put("/togglelive/:id", protect, checkRole("admin"), toggleLiveEvent);
+router.put("/toggleLive/:id", protect, checkRole("admin"), toggleLiveEvent);
 // Live event (only registered users)
 router.get("/live/:id", protect, checkRole("user"), getLiveEvent);
 

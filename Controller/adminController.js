@@ -1,3 +1,4 @@
+require("dotenv").config()
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -6,7 +7,7 @@ const {Admin} = require("../Model/AdminModel")
 // Signup controller
 
 const ADMIN_EMAIL = "myadmin@gmail.com";
-const ADMIN_SECRET = "SuperSecretKey123";
+const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
 const signupAdmin = async (req, res) => {
   try {
@@ -56,7 +57,7 @@ const signinAdmin = async (req, res) => {
     const match = await bcrypt.compare(password, admin.password);
     if (!match) return res.status(400).json({ message: "Wrong Password" });
 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 
     res.json({
       message: "Login Success",

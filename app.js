@@ -1,4 +1,6 @@
 require("dotenv").config()
+console.log("JWT SECRET from .env:", process.env.JWT_SECRET);
+
 const express = require("express")
 require("./Database/Connection")
 const server = express()
@@ -11,7 +13,6 @@ server.use(cors())
 
 server.use(express.json());
 
-// Serve uploads folder statically
 
 server.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
