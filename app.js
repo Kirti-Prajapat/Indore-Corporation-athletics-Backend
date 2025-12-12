@@ -1,5 +1,5 @@
 require("dotenv").config()
-console.log("JWT SECRET from .env:", process.env.JWT_SECRET);
+// console.log("JWT SECRET from .env:", process.env.JWT_SECRET);
 
 const express = require("express")
 require("./Database/Connection")

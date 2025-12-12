@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Public routes
 router.post("/signupadmin", signupAdmin);
-router.post("/signinadmin", signinAdmin);
+router.post("/signinadmin",signinAdmin);
 
 // Admin-only protected route
 router.get("/corporation-admin", protect, checkRole("admin"), (req, res) => {

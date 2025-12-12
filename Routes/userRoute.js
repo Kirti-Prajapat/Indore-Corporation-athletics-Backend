@@ -1,6 +1,6 @@
 const express = require("express");
 const { SignupUser, SigninUser, registerAthlete, getAllRegistrations } = require("../Controller/userController");
-const { protect, checkRole } = require("../Middleware/auth");
+// const { protect, checkRole } = require("../Middleware/auth");
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/signup", SignupUser);
 router.post("/signin", SigninUser);
 
-// Protected routes
+
 router.post("/register", registerAthlete); // Normal user
 // GET - Fetch all registrations
 router.get("/all", getAllRegistrations);   // Admin-only
