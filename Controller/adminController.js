@@ -1,33 +1,29 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config()
+const { Admin } = require("../Model/AdminModel");
 
-const {Admin} = require("../Model/AdminModel")
-
-// Signup controller
-
+// Allowed admin email
 const ADMIN_EMAIL = "myadmin@gmail.com";
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
+// -------------------- ADMIN SIGNUP --------------------
 const signupAdmin = async (req, res) => {
   try {
     const { email, password, secretKey } = req.body;
 
-    // Check if email is allowed
+    // console.log("SIGNUP -> ADMIN_SECRET:", ADMIN_SECRET);
+
     if (email !== ADMIN_EMAIL) {
       return res.status(403).json({ message: "You are not allowed to signup as admin." });
     }
 
-    //  Check secret key
     if (secretKey !== ADMIN_SECRET) {
       return res.status(403).json({ message: "Invalid Secret Key" });
     }
 
-    //  Check if admin exists
     const exist = await Admin.findOne({ email });
     if (exist) return res.status(400).json({ message: "Admin already exists" });
 
-    // Hash password
     const hashed = await bcrypt.hash(password, 10);
 
     const admin = new Admin({ email, password: hashed });
@@ -36,16 +32,17 @@ const signupAdmin = async (req, res) => {
     res.json({ message: "Admin Signup Successful" });
 
   } catch (err) {
-    res.status(500).json({ message: "Internal Error" });
+    console.error("SIGNUP ERROR:", err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-
-// Signin controller
-
+// -------------------- ADMIN LOGIN --------------------
 const signinAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // console.log("LOGIN -> JWT_SECRET:", process.env.JWT_SECRET);
 
     if (email !== ADMIN_EMAIL) {
       return res.status(403).json({ message: "Invalid Admin Email" });
@@ -57,44 +54,24 @@ const signinAdmin = async (req, res) => {
     const match = await bcrypt.compare(password, admin.password);
     if (!match) return res.status(400).json({ message: "Wrong Password" });
 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+    const token = jwt.sign(
+      { id: admin._id, role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+    console.log("TOKEN GENERATED:", token);
 
     res.json({
       message: "Login Success",
       user: { role: "admin", email: admin.email },
-      token,
+      token
     });
 
   } catch (err) {
+    console.error("LOGIN ERROR:", err);
     res.status(500).json({ message: "Internal Error" });
   }
 };
 
-
-// Middleware: Verify admin
-
-
-// const verifyAdmin = (req, res, next) => {
-//   try {
-//     const authHeader = req.headers.authorization;
-//     if (!authHeader) return res.status(401).json({ message: "No token" });
-
-//     const token = authHeader.split(" ")[1];
-
-//     jwt.verify(token, process.env.JWT_SECRET , (err, decoded) => {
-//       if (err) return res.status(401).json({ message: "Invalid token" });
-
-//       req.user = decoded;
-//       next();
-//     });
-
-//   } catch (err) {
-//     res.status(500).json({ message: "Error verifying token" });
-//   }
-// };
-
-
-
-
-
-module.exports = {signupAdmin,signinAdmin};
+module.exports = { signupAdmin, signinAdmin };
